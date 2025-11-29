@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Digital Warung Dinda</title>
+    <!-- Memuat Tailwind CSS CDN untuk styling yang cantik -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        /* Custom scrollbar untuk navigasi desktop */
+        .menu-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+        .menu-nav::-webkit-scrollbar-thumb {
+            background-color: #a7f3d0;
+            border-radius: 10px;
+        }
+        .menu-nav::-webkit-scrollbar-track {
+            background: #f7f9fb;
+        }
+        /* Memastikan navigasi kategori di desktop kelihatan cantik */
+        @media (min-width: 768px) {
+            .menu-nav {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6">
+
+    <!-- Header Menu -->
+    <header class="text-center py-6 mb-8 bg-green-700 rounded-xl shadow-lg">
+        <h1 class="text-4xl font-extrabold text-white tracking-wider">
+            WARUNG DINDA
+        </h1>
+        <p class="text-green-200 mt-1 font-light">
+            Rasa Rumahan, Kenangan Manis
+        </p>
+    </header>
+
+    <!-- Navigasi Kategori (Dropdown untuk Mobile) -->
+    <nav class="sticky top-0 z-10 bg-white shadow-md rounded-xl p-2 mb-6 md:hidden">
+        <select id="mobile-category-select" onchange="filterMenu(this.value)"
+                class="w-full p-3 border border-green-300 rounded-lg bg-white text-gray-700 font-semibold focus:ring-green-500 focus:border-green-500">
+            <!-- Options akan diisi oleh JavaScript -->
+        </select>
+    </nav>
+
+    <!-- Navigasi Kategori (Butang untuk Desktop/Tablet) -->
+    <nav id="desktop-nav" class="hidden md:flex justify-center space-x-4 mb-10 overflow-x-auto p-2 menu-nav">
+        <!-- Buttons akan diisi oleh JavaScript -->
+    </nav>
+
+    <!-- Bahagian Menu Utama -->
+    <main id="menu-container" class="max-w-4xl mx-auto">
+        <!-- Kandungan menu akan diisi oleh JavaScript -->
+    </main>
+
+    <!-- Footer WhatsApp Link -->
+    <footer class="text-center mt-10 p-4 bg-yellow-50 rounded-xl shadow-inner">
+        <p class="text-gray-700 font-medium">
+            Untuk Pesanan dan Tempahan:
+        </p>
+        <a id="whatsapp-link" 
+           href="https://wa.me/60123456789?text=Assalamualaikum,%20saya%20ingin%20membuat%20pesanan%20untuk%20Warung%20Dinda." 
+           target="_blank" 
+           class="inline-flex items-center mt-2 px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full transition duration-300 transform hover:scale-105 shadow-md">
+            <!-- Icon WhatsApp SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="white"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.48 1.39 4.96L2 22l5.22-1.39c1.47.93 3.19 1.39 4.93 1.39 5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2zm3.89 14.5c-.21.56-.63.66-1.16.89-.53.23-1.16.32-1.79.29-2.22-.12-4.14-1.34-5.83-3.64-.26-.37-.5-1-.24-1.5.26-.5.7-.75 1.05-.98.35-.23.75-.41.97-.6.22-.2.32-.23.49-.55.17-.32.09-.6.04-.85-.05-.24-.51-.38-.72-.51-.21-.13-.53-.31-.84-.36-.31-.05-.53-.06-.72-.05-.2.01-.52-.08-.82.63-.3.7-.72 1.69-.72 2.62 0 .93.36 1.8.72 2.45.36.65.75 1.05 1.32 1.63 1.55 1.5 2.8 1.9 4.28 2.37 1.48.47 2.34.4 3.03.35.69-.05 1.72-.73 2.1-1.46.38-.73.38-1.37.27-1.54-.11-.17-.4-.36-.85-.56z"/></svg>
+            Hubungi Warung Dinda Sekarang
+        </a>
+        <p class="text-xs text-gray-500 mt-2">
+            *Nombor ini hanyalah contoh (Sila ganti 60123456789 dengan nombor anda yang sebenar)
+        </p>
+    </footer>
+
+    <script>
+        // --- Data Menu Warung Dinda ---
+        const MENU_ITEMS = [
+            // Hidangan Utama
+            { id: 101, name: 'Nasi Goreng Spesial Dinda', description: 'Nasi goreng istimewa dengan ayam suwir, telur mata kerbau, dan acar.', price: 12.00, category: 'Hidangan Utama' },
+            { id: 102, name: 'Ayam Goreng Lengkuas', description: 'Ayam kampung diperap, digoreng garing bersama serundeng lengkuas yang rangup.', price: 15.50, category: 'Hidangan Utama' },
+            { id: 103, name: 'Ikan Bakar Sambal Dabu-dabu', description: 'Ikan Nila segar dibakar dengan bumbu kuning, disajikan dengan sambal dabu-dabu pedas segar.', price: 18.00, category: 'Hidangan Utama' },
+            { id: 104, name: 'Soto Ayam Kuah Bening', description: 'Soto ayam klasik dengan kuah jernih, suwiran ayam, dan taburan serbuk koya.', price: 9.00, category: 'Hidangan Utama' },
+            // Lauk Pauk
+            { id: 201, name: 'Tumis Kangkung Belacan', description: 'Kangkung segar ditumis pantas dengan pes belacan asli.', price: 6.00, category: 'Lauk Pauk Sampingan' },
+            { id: 202, name: 'Sayur Asem Jakarta', description: 'Sayur-sayuran dimasak dalam kuah asam manis pedas yang menyegarkan.', price: 7.50, category: 'Lauk Pauk Sampingan' },
+            { id: 203, name: 'Tempe Mendoan', description: 'Tempe yang digoreng sekejap, lembut dan dihidang bersama sambal kicap.', price: 4.00, category: 'Lauk Pauk Sampingan' },
+            // Sambal
+            { id: 301, name: 'Sambal Terasi Asli', description: 'Sambal klasik Nusantara, wajib cuba! Pedas dan wangi.', price: 3.00, category: 'Sambal Pilihan' },
+            { id: 302, name: 'Sambal Matah Bali', description: 'Irisan bawang merah, cili, serai, dan limau kasturi. Tanpa dimasak.', price: 3.50, category: 'Sambal Pilihan' },
+            // Minuman
+            { id: 401, name: 'Es Teh Manis Jumbo', description: 'Teh O Ais manis sejuk dalam saiz besar.', price: 3.50, category: 'Minuman Segar' },
+            { id: 402, name: 'Es Jeruk Nipis Perah', description: 'Jus limau nipis segar, penghilang dahaga terbaik.', price: 4.50, category: 'Minuman Segar' },
+            { id: 403, name: 'Wedang Jahe Hangat', description: 'Minuman tradisional halia panas, bagus untuk kesihatan.', price: 4.00, category: 'Minuman Segar' },
+            { id: 404, name: 'Kopi Susu Warung', description: 'Kopi bancuh tempatan dengan susu pekat manis.', price: 5.00, category: 'Minuman Segar' },
+            // Pencuci Mulut
+            { id: 501, name: 'Pisang Goreng Keju Cokelat', description: 'Pisang tanduk goreng, ditabur keju dan cokelat parut.', price: 6.50, category: 'Pencuci Mulut' },
+            { id: 502, name: 'Es Campur Istimewa', description: 'Campuran buah-buahan, agar-agar, dan santan sejuk.', price: 7.00, category: 'Pencuci Mulut' }
+        ];
+
+        let selectedCategory = 'Hidangan Utama';
+        const menuContainer = document.getElementById('menu-container');
+        const mobileSelect = document.getElementById('mobile-category-select');
+        const desktopNav = document.getElementById('desktop-nav');
+        
+        // --- LOGIC ---
+
+        // Dapatkan senarai kategori unik
+        const CATEGORIES = [...new Set(MENU_ITEMS.map(item => item.category))];
+        
+        // Fungsi untuk memformat harga
+        const formatPrice = (price) => `RM ${price.toFixed(2)}`;
+        
+        /**
+         * Menjana dan memaparkan item menu.
+         */
+        function renderMenu(category) {
+            menuContainer.innerHTML = '';
+            
+            // Di desktop (>=768px), kita paparkan semua kategori. Di mobile, hanya kategori yang dipilih.
+            // Walau bagaimanapun, untuk ringkas, kita hanya tunjukkan kategori yang dipilih sahaja untuk kedua-dua paparan.
+            const categoriesToRender = [category];
+            
+            categoriesToRender.forEach(cat => {
+                const items = MENU_ITEMS.filter(item => item.category === cat);
+                if (items.length === 0) return;
+
+                const section = document.createElement('section');
+                section.className = 'mb-10 p-5 bg-white rounded-xl shadow-lg border border-gray-100';
+                section.innerHTML = `
+                    <h2 class="text-3xl font-bold text-green-800 border-b-4 border-yellow-400 pb-2 mb-6">
+                        ${cat}
+                    </h2>
+                `;
+
+                items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'flex justify-between items-start py-4 border-b border-gray-100 last:border-b-0';
+                    itemDiv.innerHTML = `
+                        <div class="flex-grow pr-4">
+                            <h3 class="text-lg font-semibold text-gray-900">${item.name}</h3>
+                            <p class="text-sm text-gray-500 mt-1">${item.description}</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="text-xl font-extrabold text-green-600 whitespace-nowrap">
+                                ${formatPrice(item.price)}
+                            </span>
+                        </div>
+                    `;
+                    section.appendChild(itemDiv);
+                });
+
+                menuContainer.appendChild(section);
+            });
+        }
+
+        /**
+         * Menjana navigasi desktop (butang).
+         */
+        function renderDesktopNav() {
+            desktopNav.innerHTML = '';
+            CATEGORIES.forEach(cat => {
+                const button = document.createElement('button');
+                button.textContent = cat;
+                button.className = getCategoryButtonClass(cat);
+                button.onclick = () => filterMenu(cat);
+                desktopNav.appendChild(button);
+            });
+        }
+
+        /**
+         * Menjana navigasi mobile (dropdown).
+         */
+        function renderMobileNav() {
+            mobileSelect.innerHTML = '';
+            CATEGORIES.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                mobileSelect.appendChild(option);
+            });
+            mobileSelect.value = selectedCategory;
+        }
+
+        /**
+         * Mengendalikan penapisan kategori apabila butang/dropdown diklik/diubah.
+         */
+        function filterMenu(category) {
+            selectedCategory = category;
+            // Kemas kini paparan menu
+            renderMenu(selectedCategory);
+            // Kemas kini kelas butang desktop
+            renderDesktopNav();
+            // Kemas kini nilai dropdown mobile
+            mobileSelect.value = selectedCategory;
+        }
+        
+        /**
+         * Mengembalikan kelas CSS untuk butang kategori (aktif/tidak aktif).
+         */
+        function getCategoryButtonClass(catTitle) {
+            const baseClass = 'px-4 py-2 rounded-full font-medium transition duration-200 ease-in-out whitespace-nowrap';
+            const activeClass = catTitle === selectedCategory ? 'bg-green-700 text-white shadow-xl transform scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300';
+            return `${baseClass} ${activeClass}`;
+        }
+
+        // --- Event Listener dan Inisialisasi ---
+        
+        // Render menu semasa permulaan dan resize
+        window.onload = () => {
+            renderMobileNav();
+            renderDesktopNav();
+            // Tetapkan kategori permulaan kepada yang pertama dalam senarai
+            selectedCategory = CATEGORIES[0];
+            renderMenu(selectedCategory);
+        };
+        
+        window.addEventListener('resize', () => {
+            // Kita perlu render semula supaya mod mobile/desktop diaktifkan
+            renderMobileNav();
+            renderDesktopNav();
+            renderMenu(selectedCategory); 
+        });
+
+    </script>
+</body>
+</html>
+
